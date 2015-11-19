@@ -3,17 +3,29 @@
 </head>
 
 <body>
-  <h1>Welcome to Coursera!</h1>
+  <h1>Welcome to Image Share!</h1>
+    <div class="container">
+      {{> images}}
+    </div>
 
-  {{> images}}
 </body>
 
 <template name="images">
+  <div class="row">
 
-  {{#each images}}
+    {{#each images}}
 
-  <img src="{{img_src}}" width="150px" alt="{{img_alt}}"/>
+    <div class="col-xs-12 col-md-3">
+      <div class="thumbnail">
+        <img src="{{img_src}}" width="150px" alt="{{img_alt}}"/>
+        <div class="caption">
+          <h3>Thumbnail label</h3>
+          <p>description of the image</p>
+        </div>
+      </div> <!-- /thumb -->
+    </div> <!-- /col -->
 
   {{/each}}
-
+  
+  </div> <!-- /row -->
 </template>
