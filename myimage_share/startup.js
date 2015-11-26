@@ -1,18 +1,13 @@
 if (Meteor.isServer) {
   Meteor.startup(function() {
     if (Images.find().count() == 0) {
-      Images.insert({
-        img_src: "hamburger.jpg",
-        img_alt: "yummy hamburger"
-      });
-      Images.insert({
-        img_src: "guacamole.jpg",
-        img_alt: "yummy guacamole"
-      });
-      Images.insert({
-        img_src: "sushi.jpg",
-        img_alt: "yummy sushi"
-      });
-    } //end of if have no images
+      for (var i = 1; i < 23; i++) {
+        Images.insert({
+          img_src: "img_" + i + ".jpg",
+          img_alt: "image number " + i
+        });
+      }
+      console.log("startup.js says " + Images.find().count());
+    }
   });
 }

@@ -1,33 +1,24 @@
 Images = new Mongo.Collection("images");
-console.log(Images.find().count());
 
 if (Meteor.isClient) {
-  var img_data = [
 
-    {
-      img_src: "hamburger.jpg",
-      img_alt: "yummy hamburger"
-    }, {
-      img_src: "guacamole.jpg",
-      img_alt: "yummy guacamole"
-    }, {
-      img_src: "sushi.jpg",
-      img_alt: "yummy sushi"
-    }
-
-  ];
   Template.images.helpers({
-    images: img_data
+    images: Images.find()
   });
 
   Template.images.events({
     'click .js-image': function(event) {
       $(event.target).css("width", "50px");
+    },
+    'click .js-del-image': function(event) {
+      var image_id = this._id;
+      console.log(image_id);
+      $("#" + image_id).hide('slow', function() {
+        //remove from database
+        Images.remove({
+          "_id": image_id
+        });
+      })
     }
-  })
-
-}
-
-if (Meteor.isServer) {
-  console.log('I am the server');
+  });
 }
