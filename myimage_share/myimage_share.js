@@ -3,7 +3,12 @@ Images = new Mongo.Collection("images");
 if (Meteor.isClient) {
 
   Template.images.helpers({
-    images: Images.find()
+    images: Images.find({}, {
+      sort: {
+        createdOn: -1,
+        rating: -1
+      }
+    })
   });
 
   Template.images.events({
@@ -33,6 +38,22 @@ if (Meteor.isClient) {
           rating: rating
         }
       });
+    }
+  });
+  Template.image_add_form.events({
+    'submit .js-add-image': function(event) {
+      var img_src, img_alt;
+      img_src = event.target.img_src.value;
+      img_alt = event.target.img_alt.value;
+      console.log('src: ' + img_src + ' alt: ' + img_alt);
+
+      Images.insert({
+        img_src: img_src,
+        img_alt: img_alt,
+        createdOn: new Date()
+      });
+
+      return false;
     }
   });
 }
