@@ -11,6 +11,17 @@ if (Meteor.isClient) {
     })
   });
 
+  Template.body.helpers({
+    username: function() {
+      if (Meteor.user()) {
+        return Meteor.user().emails[0].address;
+      } else {
+        return "stranger!  Sign up to add your own images";
+      }
+    }
+  });
+
+
   Template.images.events({
     'click .js-image': function(event) {
       $(event.target).css("width", "50px");
@@ -38,6 +49,9 @@ if (Meteor.isClient) {
           rating: rating
         }
       });
+    },
+    'click .js-show-image-form': function(event) {
+      $("#image_add_form").modal('show');
     }
   });
   Template.image_add_form.events({
@@ -52,7 +66,7 @@ if (Meteor.isClient) {
         img_alt: img_alt,
         createdOn: new Date()
       });
-
+      $("#image_add_form").modal('hide');
       return false;
     }
   });
