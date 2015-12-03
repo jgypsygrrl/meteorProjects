@@ -25,6 +25,23 @@ if (Meteor.isClient) {
         })
       }
     },
+    filtering_images: function() {
+      if (Session.get("userFilter")) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getFilterUser: function() {
+      if (Session.get("userFilter")) {
+        var user = Meteor.users.findOne({
+          _id: Session.get("userFilter")
+        });
+        return user.username;
+      } else {
+        return false;
+      }
+    },
     getUser: function(user_id) {
       var user = Meteor.users.findOne({
         _id: user_id
@@ -81,6 +98,9 @@ if (Meteor.isClient) {
     },
     'click .js-set-image-filter': function(event) {
       Session.set("userFilter", this.createdBy);
+    },
+    'click .js-unset-image-filter': function(event) {
+      Session.set("userFilter", undefined);
     }
   });
   Template.image_add_form.events({
