@@ -1,5 +1,26 @@
-Session.set('imageLimit', 8);
+//routing
 
+Router.configure({
+  layoutTemplate: 'ApplicationLayout'
+});
+
+Router.route('/', function() {
+  this.render('welcome', {
+    to: 'main'
+  });
+});
+
+Router.route('/images', function() {
+  this.render('navbar', {
+    to: 'navbar'
+  });
+  this.render('images', {
+    to: 'main'
+  });
+});
+
+// infinite scroll
+Session.set('imageLimit', 8);
 lastScrollTop = 0;
 $(window).scroll(function(event) {
   if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
@@ -12,8 +33,9 @@ $(window).scroll(function(event) {
     lastScrollTop = scrollTop;
   }
 
-
 });
+
+//accounts config
 
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_AND_EMAIL"
@@ -74,7 +96,7 @@ Template.body.helpers({
     if (Meteor.user()) {
       return Meteor.user().username;
     } else {
-      return "stranger!  Sign up to add your own images";
+      return ", stranger!  Sign up to add your own images";
     }
   }
 });
