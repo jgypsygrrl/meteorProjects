@@ -15,6 +15,21 @@ Images.allow({
     }
   },
   remove: function(userId, doc) {
-    return true;
+    if (Meteor.user()) {
+      if (userId != doc.createdBy) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  },
+  update: function(userId, doc) {
+    if (userId) {
+      return true;
+    } else {
+      return false;
+    }
   }
 })

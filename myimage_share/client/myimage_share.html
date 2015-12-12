@@ -37,7 +37,6 @@
 </template>
 
 <template name="image_add_form">
-
   <div class="modal fade" id="image_add_form">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -60,6 +59,7 @@
 </template>
 
 <template name="images">
+  <div>{{> image_add_form}}</div>
   <div class="container js-container">
     {{#if currentUser}}
     <button class="btn btn-success js-show-image-form">add image</button>

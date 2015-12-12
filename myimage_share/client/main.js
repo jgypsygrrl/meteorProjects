@@ -51,11 +51,11 @@ $(window).scroll(function(event) {
 });
 
 //accounts config
-
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_AND_EMAIL"
 });
 
+//image helpers
 Template.images.helpers({
   images: function() {
     if (Session.get("userFilter")) {
@@ -106,12 +106,12 @@ Template.images.helpers({
   }
 });
 
-Template.body.helpers({
+Template.welcome.helpers({
   username: function() {
     if (Meteor.user()) {
       return Meteor.user().username;
     } else {
-      return ", stranger!  Sign up to add your own images";
+      return undefined;
     }
   }
 });
