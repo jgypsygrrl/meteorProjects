@@ -1,10 +1,31 @@
 Websites = new Mongo.Collection("websites");
 
+//set up security on Websites collection
+Websites.allow({
+  insert: function(userId, doc) {
+    console.log('testing security on website insert')
+    if (Meteor.user()) { //they are logged in
+      if (userId != doc.createdBy) { //if not user, cancel
+        return false;
+      } else {
+        return true;
+      }
+    } else { //user not logged in
+      return false;
+    }
+  },
+})
+
 if (Meteor.isClient) {
 
   /////
   // template helpers 
   /////
+
+  //accounts config
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_AND_EMAIL"
+  });
 
   // helper function that returns all available websites
   Template.website_list.helpers({
@@ -46,12 +67,22 @@ if (Meteor.isClient) {
       $("#website_form").toggle('slow');
     },
     "submit .js-save-website-form": function(event) {
-
       // here is an example of how to get the url out of the form:
       var url = event.target.url.value;
-      console.log("The url they entered is: " + url);
+      var description = event.target.description.value;
+      var title = event.target.title.value;
+      console.log("The url they entered is: " + url + ".  The description is " + "'" + description + "'");
 
       //  put your website saving code in here!	
+      if (Meteor.user()) {
+        Websites.insert({
+          url: url,
+          title: title,
+          description: description,
+          createdOn: new Date(),
+          createdBy: Meteor.user()._id
+        });
+      }
 
       return false; // stop the form submit from reloading the page
 
