@@ -64,17 +64,26 @@
 
 <!-- template that displays individual website entries -->
 <template name="website_item">
-<li>
-	<a href="{{url}}">{{title}}</a>
-	<p>
-		{{description}}
-	</p>
-	<a href="#" class="btn btn-default js-upvote">
-		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-	</a>
-	<a href="#" class="btn btn-default js-downvote">
-		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-	</a>
-	<!-- you will be putting your up and down vote buttons in here! -->
-</li>
+	<li class="website-list">
+		<a href="{{url}}">{{title}}</a>
+		<p>
+			{{description}}
+		</p>
+		<a href="#" class="btn btn-default js-upvote">
+			<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+		</a>
+		<a href="#" class="btn btn-default js-downvote">
+			<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+		</a>
+		<div class="row">
+			<p>
+				<div class="col-xs-1">
+					<span class="label label-info">up votes: {{upvoting}}</span>
+				</div>
+				<div class="col-xs-1">		
+					<span class="label label-info">down votes: {{downvoting}}</span>
+				</div>
+			</p>
+		</div>
+	</li>
 </template>

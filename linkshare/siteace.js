@@ -14,6 +14,13 @@ Websites.allow({
       return false;
     }
   },
+  update: function(userId, doc) {
+    if (userId) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 })
 
 if (Meteor.isClient) {
@@ -44,23 +51,47 @@ if (Meteor.isClient) {
       // example of how you can access the id for the website in the database
       // (this is the data context for the template)
       var website_id = this._id;
+      var upvoting = $(event.currentTarget).data("upvote");
       console.log("Up voting website with id " + website_id);
       // put the code in here to add a vote to a website!
+      Websites.update({
+        _id: website_id
+      }, {
+        $inc: {
+          upvoting: 1
+        }
+      }, {
+        $set: {
+          upvote: upvoting
+        }
+      });
 
       return false; // prevent the button from reloading the page
     },
     "click .js-downvote": function(event) {
-
       // example of how you can access the id for the website in the database
       // (this is the data context for the template)
       var website_id = this._id;
+      var downvoting = $(event.currentTarget).data("downvote");
       console.log("Down voting website with id " + website_id);
 
       // put the code in here to remove a vote from a website!
+      Websites.update({
+        _id: website_id
+      }, {
+        $inc: {
+          downvoting: -1
+        }
+      }, {
+        $set: {
+          downvote: downvoting
+        }
+      });
 
       return false; // prevent the button from reloading the page
     }
   })
+
 
   Template.website_form.events({
     "click .js-toggle-website-form": function(event) {
@@ -101,25 +132,33 @@ if (Meteor.isServer) {
         title: "Free Resources",
         url: "http://makerbook.net/",
         description: "A handpicked directory of the best free resources for creatives.",
-        createdOn: new Date()
+        createdOn: new Date(),
+        upvote: 0,
+        downvote: 0
       });
       Websites.insert({
         title: "Google Just Open Sourced TensorFlow, Its Artificial Intelligence Engine",
         url: "http://www.wired.com/2015/11/google-open-sources-its-artificial-intelligence-engine/",
         description: "Announcing open sourced Artificial Intelligence.",
-        createdOn: new Date()
+        createdOn: new Date(),
+        upvote: 0,
+        downvote: 0
       });
       Websites.insert({
         title: "Product Hunt",
         url: "https://www.producthunt.com/",
         description: "The best new apps, games, podcasts & books in your pocket.",
-        createdOn: new Date()
+        createdOn: new Date(),
+        upvote: 0,
+        downvote: 0
       });
       Websites.insert({
         title: "Stylify Me",
         url: "http://stylifyme.com/",
         description: "For designers. Grab colors, font sizing and spacing of a specific site.",
-        createdOn: new Date()
+        createdOn: new Date(),
+        upvote: 0,
+        downvote: 0
       });
     }
   });
